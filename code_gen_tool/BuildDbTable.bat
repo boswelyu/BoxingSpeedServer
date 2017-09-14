@@ -1,0 +1,2 @@
+php genDbTableCode.php
+pause
