@@ -6,7 +6,7 @@ require_once __DIR__ . '/webworker/WebProcessor.php';
 
 // Create web page
 $webserver = new WebServer("http://0.0.0.0:80");
-$webserver->addRoot("www.tealcode.com", '/home/centos/webpage');
+$webserver->addRoot("www.tealcode.com", '/home/centos/BoxingSpeedServer/webpage');
 $webserver->count = 2;
 
 // 创建一个Worker监听7788端口，使用http协议通讯
