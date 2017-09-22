@@ -10,10 +10,20 @@ require_once(__DIR__ . "/../../config.php");
 require_once($GLOBALS["SERVER_ROOT"] . "/webpage/module/WebMsg.php");
 require_once($GLOBALS["SERVER_ROOT"] . "/dbtable/TbPlayer.php");
 
-$username = $_POST["username"];
-$password = $_POST["password"];
+$postdata = file_get_contents('php://input');
 
 $reply = new WebMsg(WebMsg::LOGIN_REPLY);
+
+$request = json_decode($postdata);
+if(!isset($request))
+{
+    $reply->setError("Invalid empty request");
+    $reply->SendOut();
+    return;
+}
+
+$username = $request["username"];
+$password = $request["password"];
 
 if(!isset($username)) {
     $reply->setError("Invalid Username");

@@ -11,10 +11,10 @@ class WebMsg
     // Predefined message names
     const LOGIN_REPLY = "login_reply";
 
-    const MSG_ERROR = "error";
+    const MSG_ERROR = "status";
     const MSG_NAME = "message";
 
-    private $stateArray = array("error" => "0");
+    private $stateArray = array("status" => "OK");
     public function __construct($msgname)
     {
         if(isset($msgname)) {
