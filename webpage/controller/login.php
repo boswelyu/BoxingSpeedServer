@@ -10,11 +10,11 @@ require_once(__DIR__ . "/../../config.php");
 require_once($GLOBALS["SERVER_ROOT"] . "/webpage/module/WebMsg.php");
 require_once($GLOBALS["SERVER_ROOT"] . "/dbtable/TbPlayer.php");
 
-$postdata = file_get_contents('php://input');
+$postdata = $GLOBALS['HTTP_RAW_POST_DATA'];
 
 $reply = new WebMsg(WebMsg::LOGIN_REPLY);
 
-$request = json_decode($postdata);
+$request = json_decode($postdata, true);
 if(!isset($request))
 {
     $reply->setError("Invalid empty request");
@@ -54,7 +54,7 @@ if(strcmp($tbPlayer->getPassword(), $password) != 0) {
 }
 
 // password validation success, return user info to client
-$reply->SetContent("server_address", "192.168.74.131:7788");
+$reply->SetContent("server_address", "192.168.41.128:7788");
 $reply->SetContent("session_key", "hlikeilslked");
 $reply->SendOut();
 
