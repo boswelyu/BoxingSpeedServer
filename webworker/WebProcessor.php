@@ -8,11 +8,27 @@
 
 use Workerman\Connection\ConnectionInterface;
 
+require_once(__DIR__ . "/../config.php");
+require_once($GLOBALS["SERVER_ROOT"] . "/protobuf/Request/Person.php");
+
 class WebProcessor
 {
     public static function ProcessMessage(ConnectionInterface $connection, $data)
     {
-        $connection->send("Hello Web Message, show message content here!");
+        try{
+            $clientMsg = new \Request\Person();
+            $clientMsg->mergeFromString($data);
+
+            echo "Name :" . $clientMsg->getName() . "\n";
+            echo "Email: " . $clientMsg->getEmail();
+            echo "ID: " . $clientMsg->getId();
+
+
+//            echo "Person Email: " . $clientMsg->getEmail();
+
+        }catch(Exception $ex) {
+            echo "Parse Message Error";
+        }
     }
 
 }

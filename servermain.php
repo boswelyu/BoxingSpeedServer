@@ -9,9 +9,9 @@ $webserver = new WebServer("http://0.0.0.0:80");
 $webserver->addRoot("www.tealcode.com", '/home/centos/bsserver/webpage');
 $webserver->count = 2;
 
-// 创建一个Worker监听7788端口，使用http协议通讯
-$httpworker = new Worker("http://0.0.0.0:7788");
-
+// 创建一个Worker监听7788端口，使用Socket通信
+$httpworker = new Worker("tcp://0.0.0.0:7788");
+Worker::$stdoutFile = "/home/centos/bsserver/log/worker.log";
 // 启动4个进程对外提供服务
 $httpworker->count = 4;
 
