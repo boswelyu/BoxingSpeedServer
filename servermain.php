@@ -2,7 +2,7 @@
 use Workerman\Worker;
 use Workerman\WebServer;
 require_once __DIR__ . '/workerman/Autoloader.php';
-require_once __DIR__ . '/webworker/MessageProcessor.php';
+require_once __DIR__ . '/appworker/MessageProcessor.php';
 
 // Create web page
 $webserver = new WebServer("http://0.0.0.0:80");
