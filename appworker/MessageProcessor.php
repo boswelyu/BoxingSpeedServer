@@ -12,8 +12,10 @@ require_once(__DIR__ . "/../config.php");
 require_once($GLOBALS["SERVER_ROOT"] . "/protobuf/Client/ProtoHead.php");
 require_once($GLOBALS["SERVER_ROOT"] . "/protobuf/Client/Login.php");
 require_once($GLOBALS["SERVER_ROOT"] . "/protobuf/Client/ClientMsg.php");
+require_once($GLOBALS["SERVER_ROOT"] . "/protobuf/Server/ServerMsg.php");
 require_once($GLOBALS["SERVER_ROOT"] . "/appworker/protocol/XMessage.php");
 require_once($GLOBALS["SERVER_ROOT"] . "/appworker/reflector/OnProtobuf.php");
+require_once($GLOBALS["SERVER_ROOT"] . "/utility/AES.php");
 
 class MessageProcessor
 {
@@ -39,6 +41,8 @@ class MessageProcessor
     {
         $xmsg = new XMessage();
         $xmsg->setData($data);
+
+        echo "Received Message";
 
         $packageLen = $xmsg->getLength();
         if($packageLen < 8) {
@@ -95,7 +99,7 @@ class MessageProcessor
             $clientMsg->mergeFromString($inPacket);
 
             $retPacket = new \Server\ServerMsg();
-            $ret = OnProtobuf($userId, $inPacket, $retPacket);
+            $ret = OnProtobuf($userId, $clientMsg, $retPacket);
 
             if($ret < 0) {
                 self::ReplyClientError($connection, $ret);
@@ -108,11 +112,14 @@ class MessageProcessor
         catch(Exception $ex) {
             throw $ex;
         }
+
+        AES::Encrypt();
     }
 
     private static function ReplyClientError(ConnectionInterface $connection, $errorcode)
     {
         // TODO: Pack the error code into message and return to client
+        echo "Reply to client error: $errorcode \n";
     }
 
     private static function ReplyClientMessage(ConnectionInterface $connection, $userId, \Server\ServerMsg $retMsg)

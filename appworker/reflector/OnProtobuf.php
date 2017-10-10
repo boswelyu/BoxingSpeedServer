@@ -6,7 +6,7 @@
  */
 
 
-function OnProtobuf($userId, \Client\ClientMsg $inPacket, \Server\ServerMsg $outPacket)
+function OnProtobuf($userId, \Client\ClientMsg $inPacket, \Server\ServerMsg &$outPacket)
 {
     return 0;
 }
