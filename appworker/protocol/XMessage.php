@@ -63,4 +63,38 @@ class XMessage
         return $ret;
     }
 
+    function writeByte($data)
+    {
+        $byte = pack("c", $data);
+
+        $this->raw_data .= $byte;
+        $this->curr_pos++;
+        $this->length++;
+    }
+
+    function writeShort($data)
+    {
+        $bytes = pack("s", $data);
+
+        $this->raw_data .= $bytes;
+        $this->curr_pos += 2;
+        $this->length += 2;
+    }
+
+    function writeInt32($data)
+    {
+        $bytes = pack("i", $data);
+
+        $this->raw_data .= $bytes;
+        $this->curr_pos += 4;
+        $this->length += 4;
+    }
+
+    function writeBinary($data, $len)
+    {
+        $this->raw_data .= $data;
+        $this->curr_pos += $len;
+        $this->length += $len;
+    }
+
 }

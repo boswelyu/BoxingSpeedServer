@@ -19,9 +19,12 @@ require_once($GLOBALS["SERVER_ROOT"] . "/utility/AES.php");
 
 class MessageProcessor
 {
+    const PINGPONG_MESSAGE = 0x00000001;
+    const PROTOBUF_MESSAGE = 0x00000002;
+
     private static $msgHandlerArray = array(
-        0x00000001 => "PingPongHandler",
-        0x00000002 => "ProtobufHandler",
+        self::PINGPONG_MESSAGE => "PingPongHandler",
+        self::PROTOBUF_MESSAGE => "ProtobufHandler",
     );
 
     const PROCESS_SUCCESS = 0;
@@ -31,6 +34,8 @@ class MessageProcessor
     const ERROR_UNKNOWN_COMMAND = -4;
     const ERROR_HANDLE_MSG_FAILED = -5;
     const ERROR_EXCEPTION_RAISED = -6;
+    const ERROR_MISSING_HEAD     = -7;
+    const ERROR_USERID_MISMATCH  = -8;
 
     public static function InitService()
     {
@@ -112,19 +117,42 @@ class MessageProcessor
         catch(Exception $ex) {
             throw $ex;
         }
-
-        AES::Encrypt();
     }
 
-    private static function ReplyClientError(ConnectionInterface $connection, $errorcode)
+    //    1        1          2          4            4         4
+    // Version | Encrypt | Head Len | Packet Len | Command | Error Code
+    private static function ReplyClientError(ConnectionInterface $connection, $errorCode)
     {
-        // TODO: Pack the error code into message and return to client
-        echo "Reply to client error: $errorcode \n";
+        $xmsg = new XMessage();
+        $xmsg->writebyte(1);
+        $xmsg->writeByte(0);
+        $xmsg->writeShort(16);
+        $xmsg->writeInt32(16);
+        $xmsg->writeInt32(self::PROTOBUF_MESSAGE);
+        $xmsg->writeInt32($errorCode);
+
+        $connection->send($xmsg->raw_data);
     }
 
+    //    1        1          2          4            4           4
+    // Version | Encrypt | Head Len | Packet Len | Command | Error Code(0) | Server Message Data
     private static function ReplyClientMessage(ConnectionInterface $connection, $userId, \Server\ServerMsg $retMsg)
     {
+        $xmsg = new XMessage();
+        $xmsg->writebyte(1);
+        $xmsg->writeByte(0);
+        $xmsg->writeShort(16);
 
+        $serialData = $retMsg->serializeToString();
+        $packetLen = strlen($serialData);
+
+        $xmsg->writeInt32(16 + $packetLen);
+        $xmsg->writeInt32(self::PROTOBUF_MESSAGE);
+        $xmsg->writeInt32(0);
+
+        $xmsg->writeBinary($serialData, $packetLen);
+
+        $connection->send($xmsg->raw_data);
     }
 
 }
