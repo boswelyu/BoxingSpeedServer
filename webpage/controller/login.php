@@ -54,8 +54,9 @@ if(strcmp($tbPlayer->getPassword(), $password) != 0) {
 }
 
 // password validation success, return user info to client
-$reply->SetContent("server_address", "192.168.41.128:7788");
-$reply->SetContent("session_key", "hlikeilslked");
+$reply->SetContent("serverIp", SOCKET_IP);
+$reply->SetContent("serverPort", SOCKET_PORT);
+$reply->SetContent("sessionKey", "hlikeilslked");
 $reply->SendOut();
 
 

@@ -13,3 +13,6 @@ define('DATABASE_PORT', 3306);
 define('DATABASE_NAME', 'boxingspeed');
 define('DATABASE_USERNAME', 'root');
 define('DATABASE_PASSWORD', 'yuboenter');
+
+define('SOCKET_IP', '192.168.74.131');
+define('SOCKET_PORT', 7788);
