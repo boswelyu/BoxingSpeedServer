@@ -21,7 +21,8 @@ class TbPlayer {
 		'user_name',
 		'nickname',
 		'password',
-		'reg_time'
+		'reg_time',
+		'avatar_url'
 	);
 
 	private /*int*/ $user_id; //PRIMARY KEY 
@@ -29,6 +30,7 @@ class TbPlayer {
 	private /*string*/ $nickname;
 	private /*string*/ $password;
 	private /*string*/ $reg_time;
+	private /*string*/ $avatar_url;
 
 
     private $is_this_table_dirty = false;
@@ -37,6 +39,7 @@ class TbPlayer {
 	private $is_nickname_dirty = false;
 	private $is_password_dirty = false;
 	private $is_reg_time_dirty = false;
+	private $is_avatar_url_dirty = false;
 
 
     public function TbPlayer()
@@ -97,8 +100,8 @@ class TbPlayer {
             }
             $result[1] = $ar;
         }else{
-            			$result[0]="INSERT INTO `" . self::TABLE_NAME . "` (`user_id`,`user_name`,`nickname`,`password`,`reg_time`) VALUES ";
-			$result[1] = array('user_id'=>1,'user_name'=>1,'nickname'=>1,'password'=>1,'reg_time'=>1);
+            			$result[0]="INSERT INTO `" . self::TABLE_NAME . "` (`user_id`,`user_name`,`nickname`,`password`,`reg_time`,`avatar_url`) VALUES ";
+			$result[1] = array('user_id'=>1,'user_name'=>1,'nickname'=>1,'password'=>1,'reg_time'=>1,'avatar_url'=>1);
         }
         return $result;
     }
@@ -127,7 +130,7 @@ class TbPlayer {
 
         $resultSet =SQLUtil::RunQuery($sql);
 
-        if ($resultSet === false || !isset($resultSet) || $resultSet->num_rows == 0)
+        if (!isset($resultSet) || $resultSet->num_rows == 0)
         {
             return false;
         }
@@ -138,6 +141,7 @@ class TbPlayer {
 		if (isset($ar['nickname'])) $this->nickname = $ar['nickname'];
 		if (isset($ar['password'])) $this->password = $ar['password'];
 		if (isset($ar['reg_time'])) $this->reg_time = $ar['reg_time'];
+		if (isset($ar['avatar_url'])) $this->avatar_url = $ar['avatar_url'];
 
 
         $this->clean();
@@ -187,6 +191,13 @@ class TbPlayer {
     	}else{
     		$emptyCondition = false; 
     		$condition['reg_time'] = $this->reg_time;
+    	}
+    	if (!isset($this->avatar_url)){
+    		$emptyFields = false;
+    		$fields[] = 'avatar_url';
+    	}else{
+    		$emptyCondition = false; 
+    		$condition['avatar_url'] = $this->avatar_url;
     	}
 
 
@@ -311,6 +322,9 @@ class TbPlayer {
 					else if($f == 'reg_time'){
 			$values .= "'" . addslashes($this->reg_time) . "',";
 		}
+					else if($f == 'avatar_url'){
+			$values .= "'" . addslashes($this->avatar_url) . "',";
+		}
 					
 		}
 		$values .= ")";
@@ -357,6 +371,12 @@ class TbPlayer {
 		{
 			$fields .= "`reg_time`,";
 			$values .= "'" . addslashes($this->reg_time) . "',";
+		}
+						
+		if (isset($this->avatar_url))
+		{
+			$fields .= "`avatar_url`,";
+			$values .= "'" . addslashes($this->avatar_url) . "',";
 		}
 			
 		
@@ -420,6 +440,18 @@ class TbPlayer {
 				$update .= ("`reg_time`='".addslashes($this->reg_time)."',");
 			}
 		}
+						
+		if ($this->is_avatar_url_dirty)
+		{
+			if (!isset($this->avatar_url))
+			{
+				$update .= ("`avatar_url`=null,");
+			}
+			else
+			{
+				$update .= ("`avatar_url`='".addslashes($this->avatar_url)."',");
+			}
+		}
 			
 			
 		if (empty($update) || strlen($update) < 1)
@@ -463,6 +495,7 @@ class TbPlayer {
 		$this->is_nickname_dirty = false;
 		$this->is_password_dirty = false;
 		$this->is_reg_time_dirty = false;
+		$this->is_avatar_url_dirty = false;
 
 	}
 	
@@ -561,6 +594,25 @@ class TbPlayer {
 		$this->is_reg_time_dirty = true;
 		$this->is_this_table_dirty = true;
 	}
+	public function /*string*/ getAvatarUrl()
+	{
+		return $this->avatar_url;
+	}
+
+	public function /*void*/ setAvatarUrl(/*string*/ $avatar_url)
+	{
+		$this->avatar_url = ($avatar_url);
+		$this->is_avatar_url_dirty = true;
+		$this->is_this_table_dirty = true;
+	}
+
+
+	public function /*void*/ setAvatarUrlNull()
+	{
+		$this->avatar_url = null;
+		$this->is_avatar_url_dirty = true;
+		$this->is_this_table_dirty = true;
+	}
 	
 	public function /*string*/ toDebugString()
 	{
@@ -571,6 +623,7 @@ class TbPlayer {
 		$dbg .= ("nickname={$this->nickname},");
 		$dbg .= ("password={$this->password},");
 		$dbg .= ("reg_time={$this->reg_time},");
+		$dbg .= ("avatar_url={$this->avatar_url},");
 
 		$dbg .= ")";
 				
