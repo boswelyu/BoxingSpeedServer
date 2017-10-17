@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: boswell
- * Date: 8/20/17
- * Time: 10:16 PM
+ * Date: 10/17/2017
+ * Time: 18:01 PM
  */
 
 require_once(__DIR__ . "/../../config.php");
@@ -40,24 +40,28 @@ if(!isset($password)) {
 // Validate username and password from DB
 $tbPlayer = new TbPlayer();
 $tbPlayer->setUserName($username);
-if(!$tbPlayer->loadFromExistFields()) {
-    // No such user
-    $reply->SetError(WebMsg::ECODE_NO_USER, WebMsg::EINFO_NO_USER);
+if($tbPlayer->loadFromExistFields()) {
+    // username duplex
+    $reply->SetError(WebMsg::ECODE_DUPLEX_USER, WebMsg::EINFO_DUPLEX_USER);
     $reply->SendOut();
     return;
 }
 
-if(strcmp($tbPlayer->getPassword(), $password) != 0) {
-    $reply->SetError(WebMsg::ECODE_PWD_MISMATCH, WebMsg::EINFO_PWD_MISMATCH);
+// username valid success, insert into database
+$tbPlayer->setPassword($password);
+if($tbPlayer->insertOrUpdate()) {
+    // Create player success,
+    $reply->SetContent("userId", $tbPlayer->getUserId());
+    $reply->SetContent("serverIp", SOCKET_IP);
+    $reply->SetContent("serverPort", SOCKET_PORT);
+    $reply->SetContent("sessionKey", "hlikeilslked");
     $reply->SendOut();
-    return;
+} else {
+    $reply->SetError(WebMsg::ECODE_CREATE_FAILED, WebMsg::EINFO_CREATE_FAILED);
+    $reply->SendOut();
 }
 
 // password validation success, return user info to client
-$reply->SetContent("userId", $tbPlayer->getUserId());
-$reply->SetContent("serverIp", SOCKET_IP);
-$reply->SetContent("serverPort", SOCKET_PORT);
-$reply->SetContent("sessionKey", "hlikeilslked");
-$reply->SendOut();
+
 
 
