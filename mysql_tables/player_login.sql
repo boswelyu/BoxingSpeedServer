@@ -10,7 +10,7 @@ Target Server Type    : MariaDB
 Target Server Version : 50552
 File Encoding         : 65001
 
-Date: 2017-10-18 10:50:43
+Date: 2017-10-18 18:52:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -22,7 +22,6 @@ DROP TABLE IF EXISTS `player_login`;
 CREATE TABLE `player_login` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(128) DEFAULT NULL,
-  `nickname` varchar(32) DEFAULT NULL,
   `phone_number` varchar(32) DEFAULT NULL,
   `password` varchar(32) DEFAULT NULL,
   `reg_time` datetime DEFAULT NULL,
