@@ -8,7 +8,7 @@
 
 require_once(__DIR__ . "/../../config.php");
 require_once($GLOBALS["SERVER_ROOT"] . "/webpage/module/WebMsg.php");
-require_once($GLOBALS["SERVER_ROOT"] . "/dbtable/TbPlayer.php");
+require_once($GLOBALS["SERVER_ROOT"] . "/dbtable/TbPlayerLogin.php");
 
 $postdata = $GLOBALS['HTTP_RAW_POST_DATA'];
 
@@ -38,7 +38,7 @@ if(!isset($password)) {
 }
 
 // Validate username and password from DB
-$tbPlayer = new TbPlayer();
+$tbPlayer = new TbPlayerLogin();
 $tbPlayer->setUserName($username);
 if(!$tbPlayer->loadFromExistFields()) {
     // No such user
@@ -53,11 +53,17 @@ if(strcmp($tbPlayer->getPassword(), $password) != 0) {
     return;
 }
 
+// Login success, refresh the session key
+$currTime = time();
+$sessionKey = substr(md5("$username-$currTime"), 8, -8);
+$tbPlayer->setSessionKey($sessionKey);
+$tbPlayer->save();
+
 // password validation success, return user info to client
 $reply->SetContent("userId", $tbPlayer->getUserId());
 $reply->SetContent("serverIp", SOCKET_IP);
 $reply->SetContent("serverPort", SOCKET_PORT);
-$reply->SetContent("sessionKey", "hlikeilslked");
+$reply->SetContent("sessionKey", $sessionKey);
 $reply->SendOut();
 
 

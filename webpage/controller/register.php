@@ -8,7 +8,7 @@
 
 require_once(__DIR__ . "/../../config.php");
 require_once($GLOBALS["SERVER_ROOT"] . "/webpage/module/WebMsg.php");
-require_once($GLOBALS["SERVER_ROOT"] . "/dbtable/TbPlayer.php");
+require_once($GLOBALS["SERVER_ROOT"] . "/dbtable/TbPlayerLogin.php");
 
 $postdata = $GLOBALS['HTTP_RAW_POST_DATA'];
 
@@ -38,7 +38,7 @@ if(!isset($password)) {
 }
 
 // Validate username and password from DB
-$tbPlayer = new TbPlayer();
+$tbPlayer = new TbPlayerLogin();
 $tbPlayer->setUserName($username);
 if($tbPlayer->loadFromExistFields()) {
     // username duplex
@@ -49,12 +49,17 @@ if($tbPlayer->loadFromExistFields()) {
 
 // username valid success, insert into database
 $tbPlayer->setPassword($password);
+$currTime = time();
+$sessionKey = substr(md5("$username-$currTime"), 8, -8);
+$tbPlayer->setSessionKey($sessionKey);
+$tbPlayer->setRegTime(date("Y-m-d H:i:s", $currTime));
+
 if($tbPlayer->insertOrUpdate()) {
     // Create player success,
     $reply->SetContent("userId", $tbPlayer->getUserId());
     $reply->SetContent("serverIp", SOCKET_IP);
     $reply->SetContent("serverPort", SOCKET_PORT);
-    $reply->SetContent("sessionKey", "hlikeilslked");
+    $reply->SetContent("sessionKey", $tbPlayer->getSessionKey());
     $reply->SendOut();
 } else {
     $reply->SetError(WebMsg::ECODE_CREATE_FAILED, WebMsg::EINFO_CREATE_FAILED);

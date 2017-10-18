@@ -1,6 +1,6 @@
 <?php
 /**
- * database table player description
+ * database table player_basic description
  *
  * [This file was auto-generated. PLEASE DO NOT EDIT]
  *
@@ -10,39 +10,39 @@
 
 require_once($GLOBALS['SERVER_ROOT'] . "utility/SQLUtil.php");
 
-class TbPlayer {
+class TbPlayerBasic {
 
-    const TABLE_NAME = 'player';
+    const TABLE_NAME = 'player_basic';
     public static $table_index_info = array(
 			'PRIMARY'=>array('unique'=>true, 'fields'=>array('user_id'=>0))
 	);
     public static $all_table_field_names = array(
 		'user_id',
-		'user_name',
+		'gender',
+		'age',
 		'nickname',
-		'password',
-		'reg_time',
+		'signature',
 		'avatar_url'
 	);
 
 	private /*int*/ $user_id; //PRIMARY KEY 
-	private /*string*/ $user_name;
+	private /*int*/ $gender;
+	private /*int*/ $age;
 	private /*string*/ $nickname;
-	private /*string*/ $password;
-	private /*string*/ $reg_time;
+	private /*string*/ $signature;
 	private /*string*/ $avatar_url;
 
 
     private $is_this_table_dirty = false;
 	private $is_user_id_dirty = false;
-	private $is_user_name_dirty = false;
+	private $is_gender_dirty = false;
+	private $is_age_dirty = false;
 	private $is_nickname_dirty = false;
-	private $is_password_dirty = false;
-	private $is_reg_time_dirty = false;
+	private $is_signature_dirty = false;
 	private $is_avatar_url_dirty = false;
 
 
-    public function TbPlayer()
+    public function TbPlayerBasic()
     {
     }
 
@@ -50,9 +50,9 @@ class TbPlayer {
     /**
      * @example loadTable(array('user_id'),array("user_id"=>"123"))
      * @param array($condition)
-     * @return array(TbPlayer)
+     * @return array(TbPlayerBasic)
     */
-    public static function /*array(TbPlayer)*/loadTable(/*array*/ $fields = NULL, /*array*/$condition = NULL)
+    public static function /*array(TbPlayerBasic)*/loadTable(/*array*/ $fields = NULL, /*array*/$condition = NULL)
 	{
 		if(empty($fields))
 		{
@@ -80,7 +80,7 @@ class TbPlayer {
 
         while($row = $resultSet->fetch_array())
         {
-            $tb = new TbPlayer();
+            $tb = new TbPlayerBasic();
             /*::LOAD_TABLE_CODE::*/
             $result[] = $tb;
         }
@@ -100,8 +100,8 @@ class TbPlayer {
             }
             $result[1] = $ar;
         }else{
-            			$result[0]="INSERT INTO `" . self::TABLE_NAME . "` (`user_id`,`user_name`,`nickname`,`password`,`reg_time`,`avatar_url`) VALUES ";
-			$result[1] = array('user_id'=>1,'user_name'=>1,'nickname'=>1,'password'=>1,'reg_time'=>1,'avatar_url'=>1);
+            			$result[0]="INSERT INTO `" . self::TABLE_NAME . "` (`user_id`,`gender`,`age`,`nickname`,`signature`,`avatar_url`) VALUES ";
+			$result[1] = array('user_id'=>1,'gender'=>1,'age'=>1,'nickname'=>1,'signature'=>1,'avatar_url'=>1);
         }
         return $result;
     }
@@ -137,10 +137,10 @@ class TbPlayer {
 
         $ar = $resultSet->fetch_array();
         		if (isset($ar['user_id'])) $this->user_id = intval($ar['user_id']);
-		if (isset($ar['user_name'])) $this->user_name = $ar['user_name'];
+		if (isset($ar['gender'])) $this->gender = intval($ar['gender']);
+		if (isset($ar['age'])) $this->age = intval($ar['age']);
 		if (isset($ar['nickname'])) $this->nickname = $ar['nickname'];
-		if (isset($ar['password'])) $this->password = $ar['password'];
-		if (isset($ar['reg_time'])) $this->reg_time = $ar['reg_time'];
+		if (isset($ar['signature'])) $this->signature = $ar['signature'];
 		if (isset($ar['avatar_url'])) $this->avatar_url = $ar['avatar_url'];
 
 
@@ -164,12 +164,19 @@ class TbPlayer {
     		$emptyCondition = false; 
     		$condition['user_id'] = $this->user_id;
     	}
-    	if (!isset($this->user_name)){
+    	if (!isset($this->gender)){
     		$emptyFields = false;
-    		$fields[] = 'user_name';
+    		$fields[] = 'gender';
     	}else{
     		$emptyCondition = false; 
-    		$condition['user_name'] = $this->user_name;
+    		$condition['gender'] = $this->gender;
+    	}
+    	if (!isset($this->age)){
+    		$emptyFields = false;
+    		$fields[] = 'age';
+    	}else{
+    		$emptyCondition = false; 
+    		$condition['age'] = $this->age;
     	}
     	if (!isset($this->nickname)){
     		$emptyFields = false;
@@ -178,19 +185,12 @@ class TbPlayer {
     		$emptyCondition = false; 
     		$condition['nickname'] = $this->nickname;
     	}
-    	if (!isset($this->password)){
+    	if (!isset($this->signature)){
     		$emptyFields = false;
-    		$fields[] = 'password';
+    		$fields[] = 'signature';
     	}else{
     		$emptyCondition = false; 
-    		$condition['password'] = $this->password;
-    	}
-    	if (!isset($this->reg_time)){
-    		$emptyFields = false;
-    		$fields[] = 'reg_time';
-    	}else{
-    		$emptyCondition = false; 
-    		$condition['reg_time'] = $this->reg_time;
+    		$condition['signature'] = $this->signature;
     	}
     	if (!isset($this->avatar_url)){
     		$emptyFields = false;
@@ -310,17 +310,17 @@ class TbPlayer {
 		if($f == 'user_id'){
 			$values .= "'" . ($this->user_id) . "',";
 		}
-			 			else if($f == 'user_name'){
-			$values .= "'" . addslashes($this->user_name) . "',";
+			 			else if($f == 'gender'){
+			$values .= "'" . ($this->gender) . "',";
+		}
+					else if($f == 'age'){
+			$values .= "'" . ($this->age) . "',";
 		}
 					else if($f == 'nickname'){
 			$values .= "'" . addslashes($this->nickname) . "',";
 		}
-					else if($f == 'password'){
-			$values .= "'" . addslashes($this->password) . "',";
-		}
-					else if($f == 'reg_time'){
-			$values .= "'" . addslashes($this->reg_time) . "',";
+					else if($f == 'signature'){
+			$values .= "'" . addslashes($this->signature) . "',";
 		}
 					else if($f == 'avatar_url'){
 			$values .= "'" . addslashes($this->avatar_url) . "',";
@@ -349,10 +349,16 @@ class TbPlayer {
 			$values .= "'" . ($this->user_id) . "',";
 		}
 						
-		if (isset($this->user_name))
+		if (isset($this->gender))
 		{
-			$fields .= "`user_name`,";
-			$values .= "'" . addslashes($this->user_name) . "',";
+			$fields .= "`gender`,";
+			$values .= "'" . ($this->gender) . "',";
+		}
+						
+		if (isset($this->age))
+		{
+			$fields .= "`age`,";
+			$values .= "'" . ($this->age) . "',";
 		}
 						
 		if (isset($this->nickname))
@@ -361,16 +367,10 @@ class TbPlayer {
 			$values .= "'" . addslashes($this->nickname) . "',";
 		}
 						
-		if (isset($this->password))
+		if (isset($this->signature))
 		{
-			$fields .= "`password`,";
-			$values .= "'" . addslashes($this->password) . "',";
-		}
-						
-		if (isset($this->reg_time))
-		{
-			$fields .= "`reg_time`,";
-			$values .= "'" . addslashes($this->reg_time) . "',";
+			$fields .= "`signature`,";
+			$values .= "'" . addslashes($this->signature) . "',";
 		}
 						
 		if (isset($this->avatar_url))
@@ -393,15 +393,27 @@ class TbPlayer {
 		$update = "";
 		
 			
-		if ($this->is_user_name_dirty)
+		if ($this->is_gender_dirty)
 		{
-			if (!isset($this->user_name))
+			if (!isset($this->gender))
 			{
-				$update .= ("`user_name`=null,");
+				$update .= ("`gender`=null,");
 			}
 			else
 			{
-				$update .= ("`user_name`='".addslashes($this->user_name)."',");
+				$update .= ("`gender`='".($this->gender)."',");
+			}
+		}
+						
+		if ($this->is_age_dirty)
+		{
+			if (!isset($this->age))
+			{
+				$update .= ("`age`=null,");
+			}
+			else
+			{
+				$update .= ("`age`='".($this->age)."',");
 			}
 		}
 						
@@ -417,27 +429,15 @@ class TbPlayer {
 			}
 		}
 						
-		if ($this->is_password_dirty)
+		if ($this->is_signature_dirty)
 		{
-			if (!isset($this->password))
+			if (!isset($this->signature))
 			{
-				$update .= ("`password`=null,");
+				$update .= ("`signature`=null,");
 			}
 			else
 			{
-				$update .= ("`password`='".addslashes($this->password)."',");
-			}
-		}
-						
-		if ($this->is_reg_time_dirty)
-		{
-			if (!isset($this->reg_time))
-			{
-				$update .= ("`reg_time`=null,");
-			}
-			else
-			{
-				$update .= ("`reg_time`='".addslashes($this->reg_time)."',");
+				$update .= ("`signature`='".addslashes($this->signature)."',");
 			}
 		}
 						
@@ -491,10 +491,10 @@ class TbPlayer {
 	{
 		$this->is_this_table_dirty = false;
 		$this->is_user_id_dirty = false;
-		$this->is_user_name_dirty = false;
+		$this->is_gender_dirty = false;
+		$this->is_age_dirty = false;
 		$this->is_nickname_dirty = false;
-		$this->is_password_dirty = false;
-		$this->is_reg_time_dirty = false;
+		$this->is_signature_dirty = false;
 		$this->is_avatar_url_dirty = false;
 
 	}
@@ -518,23 +518,42 @@ class TbPlayer {
 		$this->is_user_id_dirty = true;
 		$this->is_this_table_dirty = true;
 	}
-	public function /*string*/ getUserName()
+	public function /*int*/ getGender()
 	{
-		return $this->user_name;
+		return $this->gender;
 	}
 
-	public function /*void*/ setUserName(/*string*/ $user_name)
+	public function /*void*/ setGender(/*int*/ $gender)
 	{
-		$this->user_name = ($user_name);
-		$this->is_user_name_dirty = true;
+		$this->gender = intval($gender);
+		$this->is_gender_dirty = true;
 		$this->is_this_table_dirty = true;
 	}
 
 
-	public function /*void*/ setUserNameNull()
+	public function /*void*/ setGenderNull()
 	{
-		$this->user_name = null;
-		$this->is_user_name_dirty = true;
+		$this->gender = null;
+		$this->is_gender_dirty = true;
+		$this->is_this_table_dirty = true;
+	}
+	public function /*int*/ getAge()
+	{
+		return $this->age;
+	}
+
+	public function /*void*/ setAge(/*int*/ $age)
+	{
+		$this->age = intval($age);
+		$this->is_age_dirty = true;
+		$this->is_this_table_dirty = true;
+	}
+
+
+	public function /*void*/ setAgeNull()
+	{
+		$this->age = null;
+		$this->is_age_dirty = true;
 		$this->is_this_table_dirty = true;
 	}
 	public function /*string*/ getNickname()
@@ -556,42 +575,23 @@ class TbPlayer {
 		$this->is_nickname_dirty = true;
 		$this->is_this_table_dirty = true;
 	}
-	public function /*string*/ getPassword()
+	public function /*string*/ getSignature()
 	{
-		return $this->password;
+		return $this->signature;
 	}
 
-	public function /*void*/ setPassword(/*string*/ $password)
+	public function /*void*/ setSignature(/*string*/ $signature)
 	{
-		$this->password = ($password);
-		$this->is_password_dirty = true;
+		$this->signature = ($signature);
+		$this->is_signature_dirty = true;
 		$this->is_this_table_dirty = true;
 	}
 
 
-	public function /*void*/ setPasswordNull()
+	public function /*void*/ setSignatureNull()
 	{
-		$this->password = null;
-		$this->is_password_dirty = true;
-		$this->is_this_table_dirty = true;
-	}
-	public function /*string*/ getRegTime()
-	{
-		return $this->reg_time;
-	}
-
-	public function /*void*/ setRegTime(/*string*/ $reg_time)
-	{
-		$this->reg_time = ($reg_time);
-		$this->is_reg_time_dirty = true;
-		$this->is_this_table_dirty = true;
-	}
-
-
-	public function /*void*/ setRegTimeNull()
-	{
-		$this->reg_time = null;
-		$this->is_reg_time_dirty = true;
+		$this->signature = null;
+		$this->is_signature_dirty = true;
 		$this->is_this_table_dirty = true;
 	}
 	public function /*string*/ getAvatarUrl()
@@ -619,10 +619,10 @@ class TbPlayer {
 		$dbg = "(";
 		
 		$dbg .= ("user_id={$this->user_id},");
-		$dbg .= ("user_name={$this->user_name},");
+		$dbg .= ("gender={$this->gender},");
+		$dbg .= ("age={$this->age},");
 		$dbg .= ("nickname={$this->nickname},");
-		$dbg .= ("password={$this->password},");
-		$dbg .= ("reg_time={$this->reg_time},");
+		$dbg .= ("signature={$this->signature},");
 		$dbg .= ("avatar_url={$this->avatar_url},");
 
 		$dbg .= ")";
