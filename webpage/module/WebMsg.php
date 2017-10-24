@@ -39,6 +39,19 @@ class WebMsg
     const ECODE_CREATE_FAILED = -7;
     const EINFO_CREATE_FAILED = "Create User Failed";
 
+    // 上传头像错误消息
+    const ECODE_INVALID_USERID = -8;
+    const EINFO_INVALID_USERID = "Invalid User ID";
+
+    const ECODE_EMPTY_UPLOAD_TYPE = -9;
+    const EINFO_EMPTY_UPLOAD_TYPE = "Invalid upload type";
+
+    const ECODE_INVALID_IMAGE = -10;
+    const EINFO_INVALID_IMAGE = "Invalid Image Data";
+
+    const ECODE_CREATE_FILE_FAILED = -11;
+    const EINFO_CREATE_FILE_FAILED = "Uploaded file failed to save";
+
     private $stateArray = array("status" => "0", "errorInfo" => "");
     public function __construct($msgname)
     {
