@@ -18,31 +18,35 @@ class UserProfile extends \Google\Protobuf\Internal\Message
      */
     private $userId = 0;
     /**
-     * Generated from protobuf field <code>sint32 gender = 2;</code>
-     */
-    private $gender = 0;
-    /**
-     * Generated from protobuf field <code>sint32 age = 3;</code>
-     */
-    private $age = 0;
-    /**
-     * Generated from protobuf field <code>sint32 level = 4;</code>
-     */
-    private $level = 0;
-    /**
-     * Generated from protobuf field <code>string username = 5;</code>
+     * Generated from protobuf field <code>string username = 2;</code>
      */
     private $username = '';
     /**
-     * Generated from protobuf field <code>string nickname = 6;</code>
+     * Generated from protobuf field <code>string nickname = 3;</code>
      */
     private $nickname = '';
     /**
-     * Generated from protobuf field <code>string signature = 7;</code>
+     * Generated from protobuf field <code>sint32 gender = 4;</code>
+     */
+    private $gender = 0;
+    /**
+     * Generated from protobuf field <code>string phoneNum = 5;</code>
+     */
+    private $phoneNum = '';
+    /**
+     * Generated from protobuf field <code>string birthDate = 6;</code>
+     */
+    private $birthDate = '';
+    /**
+     * Generated from protobuf field <code>string location = 7;</code>
+     */
+    private $location = '';
+    /**
+     * Generated from protobuf field <code>string signature = 8;</code>
      */
     private $signature = '';
     /**
-     * Generated from protobuf field <code>string avatarUrl = 8;</code>
+     * Generated from protobuf field <code>string avatarUrl = 9;</code>
      */
     private $avatarUrl = '';
 
@@ -74,73 +78,7 @@ class UserProfile extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * Generated from protobuf field <code>sint32 gender = 2;</code>
-     * @return int
-     */
-    public function getGender()
-    {
-        return $this->gender;
-    }
-
-    /**
-     * Generated from protobuf field <code>sint32 gender = 2;</code>
-     * @param int $var
-     * @return $this
-     */
-    public function setGender($var)
-    {
-        GPBUtil::checkInt32($var);
-        $this->gender = $var;
-
-        return $this;
-    }
-
-    /**
-     * Generated from protobuf field <code>sint32 age = 3;</code>
-     * @return int
-     */
-    public function getAge()
-    {
-        return $this->age;
-    }
-
-    /**
-     * Generated from protobuf field <code>sint32 age = 3;</code>
-     * @param int $var
-     * @return $this
-     */
-    public function setAge($var)
-    {
-        GPBUtil::checkInt32($var);
-        $this->age = $var;
-
-        return $this;
-    }
-
-    /**
-     * Generated from protobuf field <code>sint32 level = 4;</code>
-     * @return int
-     */
-    public function getLevel()
-    {
-        return $this->level;
-    }
-
-    /**
-     * Generated from protobuf field <code>sint32 level = 4;</code>
-     * @param int $var
-     * @return $this
-     */
-    public function setLevel($var)
-    {
-        GPBUtil::checkInt32($var);
-        $this->level = $var;
-
-        return $this;
-    }
-
-    /**
-     * Generated from protobuf field <code>string username = 5;</code>
+     * Generated from protobuf field <code>string username = 2;</code>
      * @return string
      */
     public function getUsername()
@@ -149,7 +87,7 @@ class UserProfile extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * Generated from protobuf field <code>string username = 5;</code>
+     * Generated from protobuf field <code>string username = 2;</code>
      * @param string $var
      * @return $this
      */
@@ -162,7 +100,7 @@ class UserProfile extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * Generated from protobuf field <code>string nickname = 6;</code>
+     * Generated from protobuf field <code>string nickname = 3;</code>
      * @return string
      */
     public function getNickname()
@@ -171,7 +109,7 @@ class UserProfile extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * Generated from protobuf field <code>string nickname = 6;</code>
+     * Generated from protobuf field <code>string nickname = 3;</code>
      * @param string $var
      * @return $this
      */
@@ -184,7 +122,95 @@ class UserProfile extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * Generated from protobuf field <code>string signature = 7;</code>
+     * Generated from protobuf field <code>sint32 gender = 4;</code>
+     * @return int
+     */
+    public function getGender()
+    {
+        return $this->gender;
+    }
+
+    /**
+     * Generated from protobuf field <code>sint32 gender = 4;</code>
+     * @param int $var
+     * @return $this
+     */
+    public function setGender($var)
+    {
+        GPBUtil::checkInt32($var);
+        $this->gender = $var;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>string phoneNum = 5;</code>
+     * @return string
+     */
+    public function getPhoneNum()
+    {
+        return $this->phoneNum;
+    }
+
+    /**
+     * Generated from protobuf field <code>string phoneNum = 5;</code>
+     * @param string $var
+     * @return $this
+     */
+    public function setPhoneNum($var)
+    {
+        GPBUtil::checkString($var, True);
+        $this->phoneNum = $var;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>string birthDate = 6;</code>
+     * @return string
+     */
+    public function getBirthDate()
+    {
+        return $this->birthDate;
+    }
+
+    /**
+     * Generated from protobuf field <code>string birthDate = 6;</code>
+     * @param string $var
+     * @return $this
+     */
+    public function setBirthDate($var)
+    {
+        GPBUtil::checkString($var, True);
+        $this->birthDate = $var;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>string location = 7;</code>
+     * @return string
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * Generated from protobuf field <code>string location = 7;</code>
+     * @param string $var
+     * @return $this
+     */
+    public function setLocation($var)
+    {
+        GPBUtil::checkString($var, True);
+        $this->location = $var;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>string signature = 8;</code>
      * @return string
      */
     public function getSignature()
@@ -193,7 +219,7 @@ class UserProfile extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * Generated from protobuf field <code>string signature = 7;</code>
+     * Generated from protobuf field <code>string signature = 8;</code>
      * @param string $var
      * @return $this
      */
@@ -206,7 +232,7 @@ class UserProfile extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * Generated from protobuf field <code>string avatarUrl = 8;</code>
+     * Generated from protobuf field <code>string avatarUrl = 9;</code>
      * @return string
      */
     public function getAvatarUrl()
@@ -215,7 +241,7 @@ class UserProfile extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * Generated from protobuf field <code>string avatarUrl = 8;</code>
+     * Generated from protobuf field <code>string avatarUrl = 9;</code>
      * @param string $var
      * @return $this
      */

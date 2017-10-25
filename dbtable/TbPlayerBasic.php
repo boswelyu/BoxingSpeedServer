@@ -19,16 +19,18 @@ class TbPlayerBasic {
     public static $all_table_field_names = array(
 		'user_id',
 		'gender',
-		'age',
+		'birthDate',
 		'nickname',
+		'location',
 		'signature',
 		'avatar_url'
 	);
 
 	private /*int*/ $user_id; //PRIMARY KEY 
 	private /*int*/ $gender;
-	private /*int*/ $age;
+	private /*string*/ $birthDate;
 	private /*string*/ $nickname;
+	private /*string*/ $location;
 	private /*string*/ $signature;
 	private /*string*/ $avatar_url;
 
@@ -36,8 +38,9 @@ class TbPlayerBasic {
     private $is_this_table_dirty = false;
 	private $is_user_id_dirty = false;
 	private $is_gender_dirty = false;
-	private $is_age_dirty = false;
+	private $is_birthDate_dirty = false;
 	private $is_nickname_dirty = false;
+	private $is_location_dirty = false;
 	private $is_signature_dirty = false;
 	private $is_avatar_url_dirty = false;
 
@@ -100,8 +103,8 @@ class TbPlayerBasic {
             }
             $result[1] = $ar;
         }else{
-            			$result[0]="INSERT INTO `" . self::TABLE_NAME . "` (`user_id`,`gender`,`age`,`nickname`,`signature`,`avatar_url`) VALUES ";
-			$result[1] = array('user_id'=>1,'gender'=>1,'age'=>1,'nickname'=>1,'signature'=>1,'avatar_url'=>1);
+            			$result[0]="INSERT INTO `" . self::TABLE_NAME . "` (`user_id`,`gender`,`birthDate`,`nickname`,`location`,`signature`,`avatar_url`) VALUES ";
+			$result[1] = array('user_id'=>1,'gender'=>1,'birthDate'=>1,'nickname'=>1,'location'=>1,'signature'=>1,'avatar_url'=>1);
         }
         return $result;
     }
@@ -138,8 +141,9 @@ class TbPlayerBasic {
         $ar = $resultSet->fetch_array();
         		if (isset($ar['user_id'])) $this->user_id = intval($ar['user_id']);
 		if (isset($ar['gender'])) $this->gender = intval($ar['gender']);
-		if (isset($ar['age'])) $this->age = intval($ar['age']);
+		if (isset($ar['birthDate'])) $this->birthDate = $ar['birthDate'];
 		if (isset($ar['nickname'])) $this->nickname = $ar['nickname'];
+		if (isset($ar['location'])) $this->location = $ar['location'];
 		if (isset($ar['signature'])) $this->signature = $ar['signature'];
 		if (isset($ar['avatar_url'])) $this->avatar_url = $ar['avatar_url'];
 
@@ -171,12 +175,12 @@ class TbPlayerBasic {
     		$emptyCondition = false; 
     		$condition['gender'] = $this->gender;
     	}
-    	if (!isset($this->age)){
+    	if (!isset($this->birthDate)){
     		$emptyFields = false;
-    		$fields[] = 'age';
+    		$fields[] = 'birthDate';
     	}else{
     		$emptyCondition = false; 
-    		$condition['age'] = $this->age;
+    		$condition['birthDate'] = $this->birthDate;
     	}
     	if (!isset($this->nickname)){
     		$emptyFields = false;
@@ -184,6 +188,13 @@ class TbPlayerBasic {
     	}else{
     		$emptyCondition = false; 
     		$condition['nickname'] = $this->nickname;
+    	}
+    	if (!isset($this->location)){
+    		$emptyFields = false;
+    		$fields[] = 'location';
+    	}else{
+    		$emptyCondition = false; 
+    		$condition['location'] = $this->location;
     	}
     	if (!isset($this->signature)){
     		$emptyFields = false;
@@ -313,11 +324,14 @@ class TbPlayerBasic {
 			 			else if($f == 'gender'){
 			$values .= "'" . ($this->gender) . "',";
 		}
-					else if($f == 'age'){
-			$values .= "'" . ($this->age) . "',";
+					else if($f == 'birthDate'){
+			$values .= "'" . addslashes($this->birthDate) . "',";
 		}
 					else if($f == 'nickname'){
 			$values .= "'" . addslashes($this->nickname) . "',";
+		}
+					else if($f == 'location'){
+			$values .= "'" . addslashes($this->location) . "',";
 		}
 					else if($f == 'signature'){
 			$values .= "'" . addslashes($this->signature) . "',";
@@ -355,16 +369,22 @@ class TbPlayerBasic {
 			$values .= "'" . ($this->gender) . "',";
 		}
 						
-		if (isset($this->age))
+		if (isset($this->birthDate))
 		{
-			$fields .= "`age`,";
-			$values .= "'" . ($this->age) . "',";
+			$fields .= "`birthDate`,";
+			$values .= "'" . addslashes($this->birthDate) . "',";
 		}
 						
 		if (isset($this->nickname))
 		{
 			$fields .= "`nickname`,";
 			$values .= "'" . addslashes($this->nickname) . "',";
+		}
+						
+		if (isset($this->location))
+		{
+			$fields .= "`location`,";
+			$values .= "'" . addslashes($this->location) . "',";
 		}
 						
 		if (isset($this->signature))
@@ -405,15 +425,15 @@ class TbPlayerBasic {
 			}
 		}
 						
-		if ($this->is_age_dirty)
+		if ($this->is_birthDate_dirty)
 		{
-			if (!isset($this->age))
+			if (!isset($this->birthDate))
 			{
-				$update .= ("`age`=null,");
+				$update .= ("`birthDate`=null,");
 			}
 			else
 			{
-				$update .= ("`age`='".($this->age)."',");
+				$update .= ("`birthDate`='".addslashes($this->birthDate)."',");
 			}
 		}
 						
@@ -426,6 +446,18 @@ class TbPlayerBasic {
 			else
 			{
 				$update .= ("`nickname`='".addslashes($this->nickname)."',");
+			}
+		}
+						
+		if ($this->is_location_dirty)
+		{
+			if (!isset($this->location))
+			{
+				$update .= ("`location`=null,");
+			}
+			else
+			{
+				$update .= ("`location`='".addslashes($this->location)."',");
 			}
 		}
 						
@@ -492,8 +524,9 @@ class TbPlayerBasic {
 		$this->is_this_table_dirty = false;
 		$this->is_user_id_dirty = false;
 		$this->is_gender_dirty = false;
-		$this->is_age_dirty = false;
+		$this->is_birthDate_dirty = false;
 		$this->is_nickname_dirty = false;
+		$this->is_location_dirty = false;
 		$this->is_signature_dirty = false;
 		$this->is_avatar_url_dirty = false;
 
@@ -537,23 +570,23 @@ class TbPlayerBasic {
 		$this->is_gender_dirty = true;
 		$this->is_this_table_dirty = true;
 	}
-	public function /*int*/ getAge()
+	public function /*string*/ getBirthDate()
 	{
-		return $this->age;
+		return $this->birthDate;
 	}
 
-	public function /*void*/ setAge(/*int*/ $age)
+	public function /*void*/ setBirthDate(/*string*/ $birthDate)
 	{
-		$this->age = intval($age);
-		$this->is_age_dirty = true;
+		$this->birthDate = ($birthDate);
+		$this->is_birthDate_dirty = true;
 		$this->is_this_table_dirty = true;
 	}
 
 
-	public function /*void*/ setAgeNull()
+	public function /*void*/ setBirthDateNull()
 	{
-		$this->age = null;
-		$this->is_age_dirty = true;
+		$this->birthDate = null;
+		$this->is_birthDate_dirty = true;
 		$this->is_this_table_dirty = true;
 	}
 	public function /*string*/ getNickname()
@@ -573,6 +606,25 @@ class TbPlayerBasic {
 	{
 		$this->nickname = null;
 		$this->is_nickname_dirty = true;
+		$this->is_this_table_dirty = true;
+	}
+	public function /*string*/ getLocation()
+	{
+		return $this->location;
+	}
+
+	public function /*void*/ setLocation(/*string*/ $location)
+	{
+		$this->location = ($location);
+		$this->is_location_dirty = true;
+		$this->is_this_table_dirty = true;
+	}
+
+
+	public function /*void*/ setLocationNull()
+	{
+		$this->location = null;
+		$this->is_location_dirty = true;
 		$this->is_this_table_dirty = true;
 	}
 	public function /*string*/ getSignature()
@@ -620,8 +672,9 @@ class TbPlayerBasic {
 		
 		$dbg .= ("user_id={$this->user_id},");
 		$dbg .= ("gender={$this->gender},");
-		$dbg .= ("age={$this->age},");
+		$dbg .= ("birthDate={$this->birthDate},");
 		$dbg .= ("nickname={$this->nickname},");
+		$dbg .= ("location={$this->location},");
 		$dbg .= ("signature={$this->signature},");
 		$dbg .= ("avatar_url={$this->avatar_url},");
 

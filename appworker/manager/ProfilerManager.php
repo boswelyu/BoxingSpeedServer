@@ -22,20 +22,19 @@ class ProfilerManager
 
         $tbPlayerLogin = new TbPlayerLogin();
         $tbPlayerLogin->setUserId($userId);
-        if($tbPlayerLogin->loadFromExistFields()) {
+        if($tbPlayerLogin->load()) {
             $profiler->setUserId($userId);
             $profiler->setUsername($tbPlayerLogin->getUserName());
-        }
-        else {
-            echo "UserID Not Exist: $userId";
+            $profiler->setPhoneNum($tbPlayerLogin->getPhoneNumber());
         }
 
         $tbPlayerBasic = new TbPlayerBasic();
         $tbPlayerBasic->setUserId($userId);
         if($tbPlayerBasic->loadFromExistFields()) {
             $profiler->setNickname($tbPlayerBasic->getNickname());
-            $profiler->setAge($tbPlayerBasic->getAge());
+            $profiler->setBirthDate($tbPlayerBasic->getBirthDate());
             $profiler->setGender($tbPlayerBasic->getGender());
+            $profiler->setLocation($tbPlayerBasic->getLocation());
             $profiler->setSignature($tbPlayerBasic->getSignature());
             $profiler->setAvatarUrl($tbPlayerBasic->getAvatarUrl());
         }
