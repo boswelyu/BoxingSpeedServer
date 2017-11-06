@@ -39,17 +39,23 @@ class WebMsg
     const ECODE_CREATE_FAILED = -7;
     const EINFO_CREATE_FAILED = "Create User Failed";
 
+    const ECODE_PHONE_DUPLEX = -8;
+    const EINFO_PHONE_DUPLEX = "Phone Already Bind";
+
+    const ECODE_PASSCODE_FAIL = -9;
+    const EINFO_PASSCODE_FAIL = "Pass Code Validate Failed";
+
     // 上传头像错误消息
-    const ECODE_INVALID_USERID = -8;
+    const ECODE_INVALID_USERID = -11;
     const EINFO_INVALID_USERID = "Invalid User ID";
 
-    const ECODE_EMPTY_UPLOAD_TYPE = -9;
+    const ECODE_EMPTY_UPLOAD_TYPE = -12;
     const EINFO_EMPTY_UPLOAD_TYPE = "Invalid upload type";
 
-    const ECODE_INVALID_IMAGE = -10;
+    const ECODE_INVALID_IMAGE = -13;
     const EINFO_INVALID_IMAGE = "Invalid Image Data";
 
-    const ECODE_CREATE_FILE_FAILED = -11;
+    const ECODE_CREATE_FILE_FAILED = -14;
     const EINFO_CREATE_FILE_FAILED = "Uploaded file failed to save";
 
     private $stateArray = array("status" => "0", "errorInfo" => "");
